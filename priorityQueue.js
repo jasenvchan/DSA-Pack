@@ -16,6 +16,7 @@ class PriorityQueue {
 		this.arr = [];
 		this.comparator = comparator;
 		this.size = this.arr.length;
+		this.map = new Map();
 	}
 
 	// returns the number of elements in the pqueue
@@ -27,6 +28,10 @@ class PriorityQueue {
 	add(e) {
 		this.arr.push(e);
 		this.size = this.arr.length;
+
+		// add the element to the map and 
+		this.map.set(e, this.size - 1);
+
 		this.restoreHeapUp();
 	}
 
@@ -55,8 +60,27 @@ class PriorityQueue {
 	}
 
 	// removes element from anywhere in the pqueue and return it
-	remove() {
+	// if the element doesn't exist in the pqueue return undefined
+	// runs in O(logn) where n is the height of the heap
+	remove(e) {
+		/*
+		- Create an internal map to store which value is at which index of arr representing the heap
+		- call this.restoreHeapDown() on the index of the element to be removed,
+		*/
 
+		if(!this.map.has(e) || this.size === 0) return;
+
+		const prevIndex = this.map.get(e);
+
+		this.swap(this.map.get(e), this.size - 1);
+
+		this.map.delete(e);
+		this.arr.pop();
+		this.size = this.arr.length;
+
+		this.restoreHeapDown(prevIndex);
+
+		return e;
 	}
 
 	// helper methods; should be private, but oh well
@@ -66,6 +90,10 @@ class PriorityQueue {
 	swap(pos1, pos2) {
 		if(pos1 < 0 || pos2 < 0 || pos1 >= this.arr.length || pos2 >= this.arr.length) return false;
 		const temp = this.arr[pos1];
+
+		this.map.set(this.arr[pos1], pos2);
+		this.map.set(this.arr[pos2], pos1);
+
 		this.arr[pos1] = this.arr[pos2];
 		this.arr[pos2] = temp;
 
@@ -112,14 +140,17 @@ class PriorityQueue {
 	}
 }
 
-// const pqueue = new PriorityQueue(((a,b) => a-b));
+// const pqueue = new PriorityQueue(((a,b) => b-a));
 
-// const arr = [1,5,4,2,3,5,4,1,5,7,8,88,41,1,115,61,1556,75,3,213,5,5,32,3,2,1,1,996,2227,674,1267,0];
+// const arr = [2,5,3,4,1]; //[1,5,4,2,3,5,4,1,5,7,8,88,41,1,115,61,1556,75,3,213,5,5,32,3,2,1,1,996,2227,674,1267,0];
 
 // arr.forEach(e => {
 // 	pqueue.add(e)
 // 	console.log(pqueue.arr)
+// 	console.log(pqueue.map)
 // });
+
+// pqueue.remove(2);
 
 // while(pqueue.size > 0) {
 // 	console.log(pqueue.poll());
