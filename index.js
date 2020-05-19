@@ -1,5 +1,9 @@
-const PriorityQueue = require('./PriorityQueue')
+const PriorityQueue = require('./priorityQueue')
+const LinkedList = require('./linkedList')
+
+let f = new LinkedList();
 
 module.exports = {
-	PriorityQueue
+	PriorityQueue,
+	LinkedList
 }

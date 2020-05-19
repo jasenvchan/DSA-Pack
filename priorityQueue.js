@@ -1,15 +1,3 @@
-/*
-
-Methods needed
-
-add
-remove
-peek
-clear
-size
-
-*/
-
 class PriorityQueue {
 
 	constructor(comparator = (a, b) => a-b) {
@@ -170,27 +158,10 @@ class PriorityQueue {
 			this.restoreHeapDown(smallerChildI);
 		}
 	}
+
+	isEmpty() {
+		return this.size === 0;
+	}
 }
 
-const pqueue = new PriorityQueue(((a,b) => b-a));
-
-const arr = [2,5,3,4,2,4,5,7,8,7]; //[1,5,4,2,3,5,4,1,5,7,8,88,41,1,115,61,1556,75,3,213,5,5,32,3,2,1,1,996,2227,674,1267,0];
-
-arr.forEach(e => {
-	pqueue.add(e)
-	console.log(pqueue.arr)
-	
-});
-
-console.log(pqueue.arr)
-console.log(pqueue.map)
-
-pqueue.remove(2);
-
-console.log(pqueue.arr)
-console.log(pqueue.map)
-
-while(pqueue.size > 0) {
-	console.log(pqueue.poll());
-	// console.log(pqueue.arr);
-}
+module.exports = PriorityQueue;
